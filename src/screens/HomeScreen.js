@@ -1,91 +1,101 @@
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import GameCardContainer from '../components/cards/GameCardContainer';
-import GameCardHeader from '../components/cards/GameCardHeader';
-import GameCardFooter from '../components/cards/GameCardFooter';
-import SelectionRow from '../components/cards/SelectionRow';
-import Badge from '../components/Badge';
-
-const GOLFERS = [
-  { id: 1, label: '(1) Scottie Scheffler' },
-  { id: 2, label: '(2) Rory McIlroy' },
-  { id: 3, label: '(3) Xander Schauffele' },
-  { id: 4, label: '(4) Jon Rahm' },
-];
-
-const GOLFERS_WITH_STATS = [
-  { id: 1, label: '(1) Scottie Scheffler (-1)', rightLabel: '102 (30%)' },
-  { id: 2, label: '(2) Rory McIlroy (+2)',      rightLabel: '82 (22%)' },
-  { id: 3, label: '(3) Xander Schauffele (-4)', rightLabel: '66 (17%)' },
-  { id: 4, label: '(4) Jon Rahm (E)',            rightLabel: '14 (5%)' },
-];
-
-// The No Pick Footer should show My Pick: in the #002129 color,
-// But then show right next to it No Pick in the #CC293C color
-const noPickFooterText = [
-  { id: 'mypick', content: 'My Pick: ', color: '#002129' },
-  { id: 'nopick', content: 'No Pick', color: '#CC293C' },
-];
+import PickEmCard from '../components/cards/PickEmCard';
+import SpreadTotalCard from '../components/cards/SpreadTotalCard';
+import QuickPickCard from '../components/cards/QuickPickCard';
+import ScorePredictionCard from '../components/cards/ScorePredictionCard';
+import DropdownPickCard from '../components/cards/DropdownPickCard';
+import { mockNFLGame, mockCFBGame } from '../data/mockPickEm';
+import { mockPropRB, mockPropSack, mockPropTD } from '../data/mockQuickPick';
+import { mockHockeyGame } from '../data/mockScorePrediction';
+import { mockLastGoal } from '../data/mockDropdownPick';
+import { colors } from '../theme/colors';
 
 export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
 
-        {/* Simple — no right column */}
-        <GameCardContainer borderColor="#002129" borderWidth={2}>
-          <GameCardHeader
-          headerColor="#076652"
-            headerTextColor='#FFFFFF'
-            headerLeft="Tier 1 - The Favorites"
-            headerRight="Pick 1 Golfer"
-          />
-          {GOLFERS.map((g, i) => (
-            <SelectionRow
-              key={g.id}
-              label={g.label}
-              selected={i === 0}
-              showCheckbox
-              selectedColor="#002129"
-              rowColor={i % 2 === 0 ? '#FFFFFF' : '#FAFAFA'}
-            />
-          ))}
-          <GameCardFooter
-          footerBorderColor='#002129'
-            footerMiddle={
-              <Text style={{ fontSize: 16, fontWeight: '500' }}>
-                {noPickFooterText.map((seg) => (
-                  <Text key={seg.id} style={{ color: seg.color }}>{seg.content}</Text>
-                ))}
-              </Text>
-            }
-          />
-        </GameCardContainer>
+        {/* Spread + Total — CFB Matchup */}
+        <SpreadTotalCard
+          title={mockCFBGame.title}
+          headerLeft={mockCFBGame.headerLeft}
+          columns={mockCFBGame.columns}
+          rows={mockCFBGame.rows}
+          venue={mockCFBGame.venue}
+          network={mockCFBGame.network}
+          borderColor={colors.ppgDark}
+          borderWidth={2}
+          shadow
+        />
 
-        {/* With right column */}
-        <GameCardContainer borderColor="#002129" borderWidth={2}>
-          <GameCardHeader
-            headerColor="#076652"
-            headerTextColor='#FFFFFF'
-            headerLeft="Tier 1 - The Favorites"
-            headerRight="Times Picked"
-            headerBorderColor={'#002129'}
-            headerBorderWidth={2}
-          />
-          {GOLFERS_WITH_STATS.map((g, i) => (
-            <SelectionRow
-              key={g.id}
-              label={g.label}
-              rightLabel={g.rightLabel}
-              selectedColor="#002129"
-              rowColor={i % 2 === 0 ? '#FFFFFF' : '#FAFAFA'}
-            />
-          ))}
-          <GameCardFooter
-            footerMiddle="My Pick: (1) Scottie Scheffler"
-            footerBorderColor='#002129'
-          />
-        </GameCardContainer>
+        {/* Pick Em — NFL Matchup */}
+        <PickEmCard
+          headerLeft={mockNFLGame.headerLeft}
+          headerRight={mockNFLGame.headerRight}
+          headerBackgroundColor={colors.headerDefault}
+          headerTextColor={colors.ppgDark}
+          rows={mockNFLGame.rows}
+          footer={mockNFLGame.footer}
+          accentColor={colors.ppgDark}
+          borderColor={colors.headerDefault}
+          borderWidth={2}
+          shadow
+        />
+
+        {/* Quick Pick — 2-option with logos */}
+        <QuickPickCard
+          headerLeft={mockPropRB.headerLeft}
+          headerRight={mockPropRB.headerRight}
+          question={mockPropRB.question}
+          options={mockPropRB.options}
+        />
+
+        {/* Quick Pick — 2-option text only */}
+        <QuickPickCard
+          headerLeft={mockPropSack.headerLeft}
+          headerRight={mockPropSack.headerRight}
+          question={mockPropSack.question}
+          options={mockPropSack.options}
+        />
+
+        {/* Quick Pick — 6-option stacked */}
+        <QuickPickCard
+          headerLeft={mockPropTD.headerLeft}
+          headerRight={mockPropTD.headerRight}
+          question={mockPropTD.question}
+          options={mockPropTD.options}
+          layout={mockPropTD.layout}
+        />
+
+        {/* Score Prediction */}
+        <ScorePredictionCard
+          title={mockHockeyGame.title}
+          headerBackgroundColor={mockHockeyGame.headerBackgroundColor}
+          awayTeam={mockHockeyGame.awayTeam}
+          homeTeam={mockHockeyGame.homeTeam}
+          gameDate={mockHockeyGame.gameDate}
+          gameTime={mockHockeyGame.gameTime}
+          lockNotice={mockHockeyGame.lockNotice}
+          lockNoticeBackgroundColor={mockHockeyGame.lockNoticeBackgroundColor}
+          lockNoticeTextColor={mockHockeyGame.lockNoticeTextColor}
+          borderColor={mockHockeyGame.borderColor}
+          borderWidth={2}
+        />
+
+        {/* Dropdown Pick */}
+        <DropdownPickCard
+          title={mockLastGoal.title}
+          headerBackgroundColor={mockLastGoal.headerBackgroundColor}
+          question={mockLastGoal.question}
+          options={mockLastGoal.options}
+          placeholder={mockLastGoal.placeholder}
+          lockNotice={mockLastGoal.lockNotice}
+          lockNoticeBackgroundColor={mockLastGoal.lockNoticeBackgroundColor}
+          lockNoticeTextColor={mockLastGoal.lockNoticeTextColor}
+          borderColor={mockLastGoal.borderColor}
+          borderWidth={2}
+        />
 
       </ScrollView>
     </SafeAreaView>
@@ -93,12 +103,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
-  content: {
-    padding: 16,
-    gap: 16,
-  },
+  container: { flex: 1, backgroundColor: colors.white },
+  content: { padding: 16, gap: 16 },
 });

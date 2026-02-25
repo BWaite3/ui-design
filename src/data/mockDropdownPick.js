@@ -1,0 +1,20 @@
+export const mockLastGoal = {
+  title: 'Last Penguins Goal',
+  question: 'Predict the player who will score the last Penguins goal.',
+  placeholder: 'Pick a Player',
+  options: [
+    { label: 'Sidney Crosby',     value: 'crosby' },
+    { label: 'Evgeni Malkin',     value: 'malkin' },
+    { label: 'Jake Guentzel',     value: 'guentzel' },
+    { label: 'Bryan Rust',        value: 'rust' },
+    { label: 'Reilly Smith',      value: 'rsmith' },
+    { label: 'Rickard Rakell',    value: 'rakell' },
+    { label: 'Marcus Pettersson', value: 'pettersson' },
+    { label: 'Other / OT Goal',   value: 'other' },
+  ],
+  lockNotice: 'Submissions lock at the start of the 2nd Period.',
+  lockNoticeBackgroundColor: '#F5A623',
+  lockNoticeTextColor: '#232425',
+  headerBackgroundColor: '#6B0F1A',
+  borderColor: '#6B0F1A',
+};

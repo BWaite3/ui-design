@@ -1,10 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Badge({ label, color = '#FF0000' }) {
+export default function Badge({
+  label,
+  dotColor = '#FF0000',
+  textColor = '#FF0000',
+  backgroundColor = 'transparent',
+}) {
   return (
-    <View style={styles.row}>
-      <View style={[styles.dot, { backgroundColor: color }]} />
-      <Text style={[styles.label, { color }]}>{label}</Text>
+    <View style={[styles.row, { backgroundColor }]}>
+      <View style={[styles.dot, { backgroundColor: dotColor }]} />
+      <Text style={[styles.label, { color: textColor }]}>{label}</Text>
     </View>
   );
 }

@@ -1,13 +1,22 @@
 import { StyleSheet, View } from 'react-native';
+import { colors } from '../../theme/colors';
+import { spacing } from '../../theme/spacing';
 
 export default function GameCardContainer({
   children,
-  borderColor = '#D1D5DB',
+  borderColor = colors.borderDefault,
   borderWidth = 1,
   shadow = false,
+  backgroundColor = colors.white,
 }) {
   return (
-    <View style={[styles.card, { borderColor, borderWidth }, shadow && styles.shadow]}>
+    <View
+      style={[
+        styles.card,
+        { borderColor, borderWidth, backgroundColor },
+        shadow && styles.shadow,
+      ]}
+    >
       {children}
     </View>
   );
@@ -15,8 +24,7 @@ export default function GameCardContainer({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#ffffff',
-    borderRadius: 12,
+    borderRadius: spacing.cardBorderRadius,
     overflow: 'hidden',
   },
   shadow: {
